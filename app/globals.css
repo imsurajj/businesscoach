@@ -1,26 +1,192 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
+@custom-variant dark (&:is(.dark *));
+
+/* ==========================================================================
+   BUSINESS COACH MASTER DESIGN TOKENS
+   - Default: Pristine Executive Light Theme
+   - Dark Theme: Deep Obsidian Midnight
+   - Strictly 100% Solid Colors (No Gradients)
+   ========================================================================== */
+
+/* LIGHT THEME (Default) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --coach-bg: #fcfcfd;
+  --coach-bg-secondary: #f8fafc;
+  --coach-surface: #ffffff;
+  --coach-surface-hover: #f1f5f9;
+  --coach-surface-active: #e2e8f0;
+  --coach-border: #e2e8f0;
+  --coach-border-subtle: #f1f5f9;
+  --coach-border-focus: #c59b4b;
+
+  --coach-accent: #b45309;
+  --coach-accent-hover: #92400e;
+  --coach-accent-active: #78350f;
+  --coach-accent-contrast: #ffffff;
+
+  --coach-text-primary: #0a0d14;
+  --coach-text-secondary: #475569;
+  --coach-text-muted: #64748b;
+  --coach-text-light: #334155;
+
+  --coach-success: #059669;
+  --coach-danger: #dc2626;
+
+  /* Theme bindings */
+  --background: #fcfcfd;
+  --foreground: #0a0d14;
+  --card: #ffffff;
+  --card-foreground: #0a0d14;
+  --border: #e2e8f0;
+  --primary: #b45309;
+  --primary-foreground: #ffffff;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* DARK THEME (.dark) */
+.dark {
+  --coach-bg: #090c13;
+  --coach-bg-secondary: #0f1420;
+  --coach-surface: #101522;
+  --coach-surface-hover: #161d2c;
+  --coach-surface-active: #1d2538;
+  --coach-border: #1c2331;
+  --coach-border-subtle: #161d2c;
+  --coach-border-focus: #c59b4b;
+
+  --coach-accent: #c59b4b;
+  --coach-accent-hover: #d8ad5a;
+  --coach-accent-active: #b3893c;
+  --coach-accent-contrast: #090c13;
+
+  --coach-text-primary: #ffffff;
+  --coach-text-secondary: #94a3b8;
+  --coach-text-muted: #64748b;
+  --coach-text-light: #cbd5e1;
+
+  --coach-success: #10b981;
+  --coach-danger: #ef4444;
+
+  /* Theme bindings */
+  --background: #090c13;
+  --foreground: #ffffff;
+  --card: #101522;
+  --card-foreground: #ffffff;
+  --border: #1c2331;
+  --primary: #c59b4b;
+  --primary-foreground: #090c13;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base Body Styles */
+html {
+  scroll-behavior: smooth;
+  background-color: var(--coach-bg);
+  color: var(--coach-text-primary);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--coach-bg);
+  color: var(--coach-text-primary);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ==========================================================================
+   MICRO-ANIMATIONS & TRANSITIONS (No Gradients)
+   ========================================================================== */
+
+.tap-effect {
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s ease, border-color 0.2s ease;
+}
+.tap-effect:active {
+  transform: scale(0.975);
+}
+
+.coach-card {
+  background-color: var(--coach-surface);
+  border: 1px solid var(--coach-border);
+  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+.coach-card:hover {
+  border-color: var(--coach-accent);
+}
+
+.btn-accent {
+  background-color: var(--coach-accent);
+  color: var(--coach-accent-contrast);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.btn-accent:hover {
+  background-color: var(--coach-accent-hover);
+}
+.btn-accent:active {
+  transform: scale(0.98);
+  background-color: var(--coach-accent-active);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--coach-text-primary);
+  border: 1px solid var(--coach-border);
+  transition: all 0.2s ease;
+}
+.btn-outline:hover {
+  background-color: var(--coach-surface-hover);
+  border-color: var(--coach-accent);
+  color: var(--coach-accent);
+}
+.btn-outline:active {
+  transform: scale(0.98);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--coach-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--coach-border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--coach-text-muted);
+}
+
+/* Minimal section appear animation */
+@keyframes sectionAppear {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section-appear {
+  animation: sectionAppear 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes coachModalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-coach-modal-in {
+  animation: coachModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
