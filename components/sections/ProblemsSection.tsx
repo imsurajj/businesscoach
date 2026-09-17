@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowDown } from "lucide-react";
 
 /* ==========================================================================
    EASILY EDITABLE PROBLEMS SECTION CONSTANTS
@@ -40,33 +40,43 @@ interface ProblemsSectionProps {
 
 export default function ProblemsSection({ onOpenModal }: ProblemsSectionProps) {
   return (
-    <section id="problem" className="py-20 bg-[var(--coach-bg)] border-b border-[var(--coach-border)]">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
+    <section
+      id="problem"
+      className="py-16 sm:py-20 pb-28 sm:pb-20 scroll-mt-20 sm:scroll-mt-24 bg-[var(--coach-bg)] border-b border-[var(--coach-border)]"
+    >
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-14">
         {/* Section Header */}
-        <div className="space-y-3 text-center max-w-2xl mx-auto">
+        <div className="space-y-3 text-center max-w-3xl mx-auto pt-2 sm:pt-0">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[var(--coach-surface)] border border-[var(--coach-border)]">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#ef4444]" />
+            <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
             <span className="text-xs font-semibold tracking-wider text-[var(--coach-text-secondary)] uppercase">
               {PROBLEMS_DATA.eyebrow}
             </span>
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[var(--coach-text-primary)] tracking-tight">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[var(--coach-text-primary)] tracking-tight">
             {PROBLEMS_DATA.heading}
           </h2>
-          <p className="text-sm sm:text-base text-[var(--coach-text-secondary)] leading-relaxed">
+          <p className="text-xs sm:text-sm md:text-base text-[var(--coach-text-secondary)] leading-relaxed max-w-2xl mx-auto">
             {PROBLEMS_DATA.subheading}
           </p>
         </div>
 
-        {/* Minimal Comparison Table / List */}
-        <div className="divide-y divide-[var(--coach-border)] border-y border-[var(--coach-border)]">
-          {/* Column Titles */}
-          <div className="grid grid-cols-1 md:grid-cols-2 py-4 text-xs font-bold uppercase tracking-wider">
-            <div className="text-[#ef4444] pb-2 md:pb-0">
-              {PROBLEMS_DATA.leftColumnTitle}
+        {/* ================================================================
+            DESKTOP VIEW (md:): Clean 2-Column Comparative Table
+            ================================================================ */}
+        <div className="hidden md:block border-y border-[var(--coach-border)] divide-y divide-[var(--coach-border)]">
+          {/* Table Column Headers */}
+          <div className="grid grid-cols-2 divide-x divide-[var(--coach-border)] py-4 text-xs font-bold uppercase tracking-wider">
+            {/* Left Column Header: RED */}
+            <div className="flex items-center gap-2 text-red-600 dark:text-red-400 pr-6">
+              <span className="w-2 h-2 rounded-full bg-red-500 shrink-0" />
+              <span>{PROBLEMS_DATA.leftColumnTitle}</span>
             </div>
-            <div className="text-[var(--coach-accent)] md:pl-8">
-              {PROBLEMS_DATA.rightColumnTitle}
+
+            {/* Right Column Header: GREEN */}
+            <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 pl-6">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+              <span>{PROBLEMS_DATA.rightColumnTitle}</span>
             </div>
           </div>
 
@@ -74,15 +84,69 @@ export default function ProblemsSection({ onOpenModal }: ProblemsSectionProps) {
           {PROBLEMS_DATA.comparisons.map((item, idx) => (
             <div
               key={idx}
-              className="grid grid-cols-1 md:grid-cols-2 py-5 gap-4 md:gap-8 items-start text-sm"
+              className="grid grid-cols-2 divide-x divide-[var(--coach-border)] py-5 items-start text-sm transition-colors hover:bg-[var(--coach-surface)]/40"
             >
-              <div className="text-[var(--coach-text-secondary)] flex items-start gap-2.5">
-                <span className="text-[#ef4444] font-semibold text-xs mt-0.5">•</span>
-                <span>{item.problem}</span>
+              {/* Left Cell: Problem (Red Indicator & Muted Text) */}
+              <div className="text-[var(--coach-text-secondary)] flex items-start gap-3 pr-6">
+                <span className="w-5 h-5 rounded-full bg-red-500/10 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold select-none">
+                  ✕
+                </span>
+                <span className="leading-relaxed">{item.problem}</span>
               </div>
-              <div className="text-[var(--coach-text-primary)] md:pl-8 flex items-start gap-2.5">
-                <span className="text-[var(--coach-accent)] font-semibold text-xs mt-0.5">✓</span>
-                <span>{item.solution}</span>
+
+              {/* Right Cell: Solution (Green Checkmark & Primary Text) */}
+              <div className="text-[var(--coach-text-primary)] font-medium flex items-start gap-3 pl-6">
+                <span className="w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold select-none">
+                  ✓
+                </span>
+                <span className="leading-relaxed">{item.solution}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* ================================================================
+            MOBILE VIEW (< md): High-Impact Transformation Shift Cards
+            ================================================================ */}
+        <div className="md:hidden space-y-4">
+          {PROBLEMS_DATA.comparisons.map((item, idx) => (
+            <div
+              key={idx}
+              className="rounded-xl border border-[var(--coach-border)] bg-[var(--coach-surface)] p-4 sm:p-5 space-y-3 shadow-none"
+            >
+              {/* 1. The Bottleneck (Red Accent) */}
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-red-600 dark:text-red-400">
+                  <span className="w-4 h-4 rounded-full bg-red-500/10 flex items-center justify-center text-[10px] font-bold shrink-0">
+                    ✕
+                  </span>
+                  <span>The Bottleneck</span>
+                </div>
+                <p className="text-xs sm:text-sm text-[var(--coach-text-secondary)] leading-relaxed pl-6">
+                  {item.problem}
+                </p>
+              </div>
+
+              {/* Transition Divider / Shift Indicator */}
+              <div className="relative flex items-center py-1">
+                <div className="flex-grow border-t border-[var(--coach-border)]" />
+                <span className="flex-shrink mx-2 text-[10px] font-mono font-bold uppercase tracking-wider text-[var(--coach-accent)] bg-[var(--coach-bg)] px-2.5 py-0.5 rounded border border-[var(--coach-border)] inline-flex items-center gap-1">
+                  Shift <ArrowDown className="w-2.5 h-2.5" />
+                </span>
+                <div className="flex-grow border-t border-[var(--coach-border)]" />
+              </div>
+
+              {/* 2. Autonomous Scale (Green Accent) */}
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                  <span className="w-4 h-4 rounded-full bg-emerald-500/10 flex items-center justify-center text-[10px] font-bold shrink-0">
+                    ✓
+                  </span>
+                  <span>Autonomous Scale</span>
+                </div>
+                <p className="text-xs sm:text-sm font-semibold text-[var(--coach-text-primary)] leading-relaxed pl-6">
+                  {item.solution}
+                </p>
               </div>
             </div>
           ))}

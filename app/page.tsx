@@ -43,7 +43,7 @@ export default function Home() {
         {/* 5. 3 Tier Advisory Programs */}
         <ProgramsSection onOpenModal={openModal} />
 
-        {/* 6. The 4-Stage Proven Scaling Methodology (Interactive One-by-One Progress) */}
+        {/* 6. The 4-Stage Autonomous Engine Framework */}
         <FrameworkSection onOpenModal={openModal} />
 
         {/* 7. Audited Client Results & Case Studies */}

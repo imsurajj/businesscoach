@@ -190,3 +190,23 @@ body {
 .animate-coach-modal-in {
   animation: coachModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+/* Infinite Logo Ticker */
+@keyframes logoTicker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-logo-ticker {
+  display: flex;
+  width: max-content;
+  animation: logoTicker 28s linear infinite;
+}
+
+.animate-logo-ticker:hover {
+  animation-play-state: paused;
+}
